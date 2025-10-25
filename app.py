@@ -2,8 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
-import gzip  # Added this
-from scipy.sparse import csr_matrix
+import gzip 
 from sklearn.neighbors import NearestNeighbors
 
 st.title("🎬 Movie Recommendation System")
