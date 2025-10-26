@@ -6,6 +6,7 @@ import gzip
 from sklearn.neighbors import NearestNeighbors
 
 st.title("🎬 Movie Recommendation System")
+st.markdown("This app uses **Collaborative Filtering** to recommend similar movies based on user viewing and rating patterns.")
 
 # Functions
 def fix_title(title):
@@ -63,8 +64,8 @@ movie_titles = dict(zip(movies['movieId'], movies['title']))
 
 # Sidebar for settings
 st.sidebar.header("Settings")
-model = st.sidebar.radio("Select Model:", ["Original Matrix", "SVD Model"])
-num_recs = st.sidebar.slider("Number of recommendations:", 5, 20, 10)
+model = st.sidebar.radio("Select Model:", ["KNN", "SVD Model"])
+num_recs = st.sidebar.slider("Number of recommendations:", 3, 10, 5)
 
 # Main input
 movie_name = st.text_input("Enter a movie name:")
@@ -83,12 +84,12 @@ if st.button("Get Recommendations"):
             if movie_id not in movie_mapper:
                 st.error(f"Movie has no ratings data.")
             else:
-                if model == "SVD Model":
+                if model == "SVD":
                     similar = find_similar_movies(movie_id, Q.T, movie_mapper, movie_inv_mapper, k=num_recs)
                 else:
                     similar = find_similar_movies(movie_id, X, movie_mapper, movie_inv_mapper, k=num_recs)
                 
-                st.write(f"\n**Because you watched: {fix_title(movie_title)}**\n")
+                st.write(f"\n**Similar Movies Like: {fix_title(movie_title)}**\n")
                 for i, mid in enumerate(similar, 1):
                     st.text(f"{i}. {fix_title(movie_titles[mid])}")
     else:
